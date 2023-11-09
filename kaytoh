@@ -1,0 +1,119 @@
+!DOCTYPE html>
+<html>
+<head>
+  <title>Mini App de Pilha</title>
+<link rel="style" href="style.css">
+<link rel=JS" href="stack.js">
+  <style>
+</style>
+</head>
+<body>
+  <div class="container">
+    <h1>Mini App de Pilha</h1>
+    <div>
+      <label for="element">Elemento:</label>
+      <input type="text" id="element">
+      <button onclick="pushElement()">Push</button>
+      <button onclick="popElement()">Pop</button>
+    </div>
+    <div class="stack" id="stackDisplay">
+      Pilha: Vazia
+    </div>
+  </div>
+<script src=" stack.js"></script>
+</body>
+</html>
+
+stack.js
+ <script>
+     class Stack {
+    constructor() {
+      this.count = 0;
+      this.items = {}
+    }
+
+    push(element) {
+      this.items[this.count] = element;
+      this.count++;
+    }
+    pop() {
+      if (this.isEmpty()) {
+        return undefined;
+      }
+      this.count--;
+      const result = this.items[this.count];
+      delete this.items[this.count];
+      return result;
+    }
+    
+    peek() {
+      if (this.isEmpty()) {
+        return undefined;
+      }
+      return this.items[this.count - 1];
+    }
+    isEmpty() {
+      return this.count === 0;
+    }
+    size() {
+      return this.count;
+    }
+    clear() {
+      /* while (!this.isEmpty()) {
+          this.pop();
+        } */
+      this.items = {};
+      this.count = 0;
+    }
+    toString() {
+      if (this.isEmpty()) {
+        return '';
+      }
+      let objString = `${this.items[0]}`;
+      for (let i = 1; i < this.count; i++) {
+        objString = `${objString},${this.items[i]}`;
+      }
+      return objString;
+    }
+  
+  }
+    const stack = new Stack();
+    const stackDisplay = document.getElementById('stackDisplay');
+
+    function updateStackDisplay() {
+      const stackString = stack.toString();
+      stackDisplay.textContent = `Pilha: ${stackString || 'Vazia'}`;
+    }
+
+    function pushElement() {
+      const elementInput = document.getElementById('element');
+      const element = elementInput.value;
+      if (element) {
+        stack.push(element);
+        updateStackDisplay();
+        elementInput.value = '';
+      }
+    }
+
+    function popElement() {
+      const poppedElement = stack.pop();
+      if (poppedElement !== undefined) {
+        alert(`Elemento removido: ${poppedElement}`);
+        updateStackDisplay();
+      }
+    }
+
+    updateStackDisplay();
+
+style.css
+ body {
+      font-family: Arial, sans-serif;
+    }
+    .container {
+      text-align: center;
+    }
+    .stack {
+      border: 1px solid #ccc;
+      padding: 10px;
+      margin: 10px;
+    }
